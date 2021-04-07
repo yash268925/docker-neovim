@@ -1,4 +1,4 @@
-FROM alpine AS base
+FROM alpine:latest AS base
 
 ARG NEOVIM_PREFIX=/opt/neovim
 ENV NEOVIM_PREFIX=$NEOVIM_PREFIX
