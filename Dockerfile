@@ -17,10 +17,10 @@ RUN apk add \
     musl-libintl
 
 ARG NEOVIM_VERSION=nightly
-RUN echo "${NEOVIM_VERSION}" \
- && curl -SL https://github.com/neovim/neovim/archive/${NEOVIM_VERSION}.tar.gz | tar -xz
-
-RUN cd $(find . -name 'neovim-*' -type d | head -1) \
+RUN set -ex \
+ && echo "Fetch neovim ver.${NEOVIM_VERSION}" \
+ && curl -SL https://github.com/neovim/neovim/archive/${NEOVIM_VERSION}.tar.gz | tar -xz \
+ && cd $(find . -name 'neovim-*' -type d | head -1) \
  && make \
     CMAKE_BUILD_TYPE=RelWithDebInfo \
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NEOVIM_PREFIX}" \
@@ -35,3 +35,4 @@ COPY --from=neovim $NEOVIM_PREFIX $NEOVIM_PREFIX
 
 ENTRYPOINT "${NEOVIM_PREFIX}/bin/nvim"
 CMD []
+
